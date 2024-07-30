@@ -1,0 +1,61 @@
+:root {
+    --main-color: #013220;
+}
+body {
+    background-color: #f8f9fa;
+    color: var(--main-color);
+}
+.card {
+    margin-bottom: 1.5rem;
+    border: none;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.card-header {
+    background-color: var(--main-color);
+    color: white;
+    border-bottom: none;
+}
+.search-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+.btn-primary {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+.btn-primary:hover, .btn-primary:focus{
+    background-color: #024e32;
+    border-color: #024e32;
+}
+.btn-primary.clicked {
+    background-color: #0a0a0b !important;
+    border-color: #0056b3 !important;
+}
+.btn-link {
+    color: var(--main-color);
+}
+.alert {
+    border-radius: 0.5rem;
+}
+h1 {
+    color: var(--main-color);
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+.custom-input:focus {
+    border-color: #024e32; /* Border color when the input field is focused */
+    box-shadow: 0 0 5rem rgba(0, 0, 0, 0.15); /* Optional: Add a box shadow on focus */
+    outline: none; /* Remove default outline */
+    }
+    input.custom-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important; /* Change the color to the background color of your input */
+    -webkit-text-fill-color: #000 !important; /* Change text color */
+    }
