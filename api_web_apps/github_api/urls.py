@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns =[
     # Paths for our app
-    path('', views.Github_view.as_view(), name='github')
+    path('', views.Github_View.as_view(), name='github')
 ]
