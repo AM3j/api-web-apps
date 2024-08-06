@@ -14,6 +14,14 @@
             background-color: #151515 !important;
             border-color: #151515 !important;
         }
+
+    .nav-link {
+        color: #013220; /* Default color for all nav-links */
+    }
+    .nav-link:hover {
+        color: #024e32; /* Color for active nav-link */
+    }
+
 </style>
 <body>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -32,6 +40,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h1 class="text-center">GitHub Repository Search</h1>
+        
                 <div class="search-container">
                     <form method="GET">
                         <div class="input-group mb-3">
@@ -42,45 +51,95 @@
                         </div>
                     </form>
                 </div>
+                <div style="margin-bottom: 1rem;">
+                <ul class="nav nav-tabs" id="searchTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="language-tab" data-bs-toggle="tab" data-bs-target="#language" type="button" role="tab" aria-controls="language" aria-selected="true">Language Search</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="visual-tab" data-bs-toggle="tab" data-bs-target="#visual" type="button" role="tab" aria-controls="visual" aria-selected="false">Visualization</button>
+                    </li>
+                </ul>
+                </div>
                 
-                {% if status_code %}
-                    <div class="alert alert-success d-flex align-items-center" role="alert">
-                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-                        <div>{{ status_code }}</div>
-                    </div>
-                    {% if items %}
-                        {% for item in items %}
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <span><i class="fa-solid fa-database"></i> {{ item.full_name }}</span>
-                                <span><i class="fas fa-star"></i> {{ item.stars }}</span>
+                <div class="tab-content" id="searchTabsContent">
+                    <div class="tab-pane fade show active" id="language" role="tabpanel" aria-labelledby="language-tab">
+                        {% if status_code %}
+                            <div class="alert alert-success d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                                <div>{{ status_code }}</div>
                             </div>
-                            <div class="card-body">
-                                <p class="card-text">{{ item.description }}</p>
-                                <p class="card-text"><strong>URL:</strong> <a href="{{ item.url }}" class="btn btn-link" target="_blank">View Repository</a></p>
-                                <p class="card-text"><strong>Topics:</strong> {{ item.topics | join:", " }}</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted"><i class="far fa-calendar-alt"></i> Created: {{ item.created_at }}</small>
-                                    <small class="text-muted"><i class="far fa-clock"></i> Updated: {{ item.updated_at }}</small>
+                            {% if items %}
+                                {% for item in items %}
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span><i class="fa-solid fa-database"></i> {{ item.full_name }}</span>
+                                        <span><i class="fas fa-star"></i> {{ item.stars }}</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">{{ item.description }}</p>
+                                        <p class="card-text"><strong>URL:</strong> <a href="{{ item.url }}" class="btn btn-link" target="_blank">View Repository</a></p>
+                                        <p class="card-text"><strong>Topics:</strong> {{ item.topics | join:", " }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted"><i class="far fa-calendar-alt"></i> Created: {{ item.created_at }}</small>
+                                            <small class="text-muted"><i class="far fa-clock"></i> Updated: {{ item.updated_at }}</small>
+                                        </div>
+                                    </div>
                                 </div>
+                                {% endfor %}
+                            {% else %}
+                            <div class="alert alert-warning mt-4" role="alert">
+                                No repositories found for the given language.
                             </div>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                    <div class="alert alert-warning mt-4" role="alert">
-                        No repositories found for the given language.
+                            {% endif %}
+                        {% elif status_code2 %}
+                            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div>{{ status_code2 }} {{ message }}</div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-primary" role="alert">
+                                <i class="fas fa-info-circle"></i> Search for your favorite programming language to discover popular repositories.
+                            </div>
+                        {% endif %}
                     </div>
-                    {% endif %}
-                {% elif status_code2 %}
-                    <div class="alert alert-warning d-flex align-items-center" role="alert">
-                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                        <div>{{ status_code2 }} {{ message }}</div>
+                    <div class="tab-pane fade" id="visual" role="tabpanel" aria-labelledby="visual-tab">
+                        {% if fig %}
+                            <div id="chart">{{ fig| safe}}</div>
+                        {% elif status_code2 %}
+                            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div>{{ status_code2 }} {{ message }}</div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-primary" role="alert">
+                                <i class="fas fa-info-circle"></i> Search for your favorite programming language to plot popular repositories.
+                            </div>
+                        {% endif %}
                     </div>
-                {% else %}
-                    <div class="alert alert-primary" role="alert">
-                        <i class="fas fa-info-circle"></i> Search for your favorite programming language to discover popular repositories.
-                    </div>
-                {% endif %}
+
+                    <script>
+                        // Wait for the page to load
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var chartDiv = document.getElementById('chart');
+                
+                            // Check if the chartDiv is present and has Plotly data
+                            if (chartDiv) {
+                                var data = JSON.parse(chartDiv.getAttribute('data-plotly'));
+                                
+                                Plotly.plot(chartDiv, data.data, data.layout);
+                
+                                chartDiv.on('plotly_click', function(eventData) {
+                                    var url = eventData.points[0].customdata[0];
+                                    if (url) {
+                                        window.open(url, '_blank');
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+
+                </div>
             </div>
         </div>
     </div>
